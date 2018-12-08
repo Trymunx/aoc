@@ -8,6 +8,7 @@ Step F must be finished before step E can begin.`;
 const puzzleInput = require("./07input.js");
 
 const isExample = false;
+// const isExample = true;
 const numWorkers = isExample ? 2 : 5;
 let times = {};
 for (let i = 1; i <= 26; i++) {
@@ -55,6 +56,14 @@ function answer1(input) {
   console.log(out);
 }
 
+const names = [
+  "Alice",
+  "Brian",
+  "Charlie",
+  "Dave",
+  "Ernest",
+];
+
 class Worker {
   constructor(name) {
     this.name = name;
@@ -64,17 +73,14 @@ class Worker {
   }
 
   start(task) {
-    // console.log("worker:", this.name, "starting", task);
     this.idle = false;
     this.workingOn = task;
     this.timeLeft = times[task];
   }
 
   update() {
-    // console.log("worker", this.name, this.workingOn, this.timeLeft);
     if (!--this.timeLeft) {
       let done = this.workingOn;
-      // console.log(done, "complete");
       this.workingOn = null;
       this.idle = true;
       return done;
@@ -87,25 +93,23 @@ class Worker {
 function answer2(input) {
   let timeTaken = 0;
   let graph = createGraph(input);
-  let idleWorkers = Array(numWorkers).fill(0).map((_, i) => new Worker(i));
+  let idleWorkers = Array(numWorkers).fill(0).map((_, i) => new Worker(names[i]));
   let workingWorkers = [];
   let inProgress = [];
   let complete = [];
 
   let keys = Object.keys(graph);
 
-  let counter = 100;
 
-  while (keys.length > 0 && counter > 0) {
-    // console.log("timer:", timeTaken);
+  while (keys.length > 0) {
 
-    // console.log("working:", workingWorkers);
     // Update working workers and find out if any are done
     workingWorkers.forEach(worker => {
       let done = worker.update();
       if (done) {
         // remove task from in progress
         inProgress.splice(inProgress.indexOf(done), 1);
+        complete.push(done);
         workingWorkers = workingWorkers.filter(w => w.name !== worker.name);
         // remove node from graph
         graph = removeNode(done, graph);
@@ -117,7 +121,6 @@ function answer2(input) {
 
     // Find tasks that can be started
     let readyTasks = keys.filter(key => !graph[key].length && !inProgress.includes(key)).sort();
-    // console.log("ready", readyTasks);
     while (readyTasks.length > 0 && idleWorkers.length > 0) {
       let worker = idleWorkers.pop();
       let task = readyTasks.shift();
@@ -127,72 +130,15 @@ function answer2(input) {
     }
 
     timeTaken++;
-    counter--;
   }
     console.log(timeTaken - 1);
-
-
-    // Probably don't want to be doing this
-    //idleWorkers.forEach(worker => {
-    //  if (worker.idle) {
-    //    // at this point the nodes' dependencies must have been finished
-    //    let emptyNodes = keys.filter(key => !graph[key].length).sort();
-    //    // console.log(emptyNodes);
-    //    if (emptyNodes.length > 0) {
-    //      worker.start(emptyNodes[0]);
-
-
-    //      // console.log("graph before", graph);
-    //      graph = keys.reduce((g, key) => {
-    //        if (key === emptyNodes[0]) return g;
-    //        g[key] = graph[key];
-    //        return g;
-    //      }, {});
-    //      // console.log("graph here is", graph);
-    //      keys = Object.keys(graph);
-    //    }
-    //  } else {
-    //    console.log("Timer:", timeTaken - 1);
-    //    let done = worker.update();
-    //    if (done) {
-    //      complete.push(done);
-    //      // console.log("complete", complete);
-    //      graph = keys.reduce((g, key) => {
-    //        if (key === done) return g;
-    //        g[key] = graph[key].filter(i => i !== done);
-    //        return g;
-    //      }, {});
-    //      // keys = Object.keys(graph);
-    //      //
-    //      // at this point the nodes' dependencies must have been finished
-    //      let emptyNodes = keys.filter(key => !graph[key].length).sort();
-    //      // console.log(emptyNodes);
-    //      if (emptyNodes.length > 0) {
-    //        worker.start(emptyNodes[0]);
-
-
-    //        // console.log("graph before", graph);
-    //        graph = keys.reduce((g, key) => {
-    //          if (key === emptyNodes[0]) return g;
-    //          g[key] = graph[key];
-    //          return g;
-    //        }, {});
-    //        // console.log("graph here is", graph);
-    //        keys = Object.keys(graph);
-    //      }
-    //    }
-    //  }
-    //});
-
-    //// keys = [];
-    //// console.log("incrementing timer:", timeTaken + 1);
-    //timeTaken++;
-  //}
-  //console.log(timeTaken);
 }
 
 answer1(example);
 answer1(puzzleInput);
-if (isExample) console.log("Example running with 2 workers taking 1 second for A.");
-// answer2(example);
-answer2(puzzleInput);
+if (isExample) {
+  console.log("Example running with 2 workers taking 1 second for A.");
+  answer2(example);
+} else {
+  answer2(puzzleInput);
+}
