@@ -32,6 +32,15 @@ function createGraph(input) {
   return graph;
 }
 
+function removeNode(node, graph) {
+  let keys = Object.keys(graph);
+  return keys.reduce((g, key) => {
+    if (key === node) return g;
+    g[key] = graph[key].filter(i => i !== node);
+    return g;
+  }, {});
+}
+
 function answer1(input) {
   let out = "";
   let graph = createGraph(input);
@@ -40,11 +49,7 @@ function answer1(input) {
   while (keys.length > 0) {
     let emptyNodes = keys.filter(key => !graph[key].length).sort();
     out += emptyNodes[0];
-    graph = keys.reduce((g, key) => {
-      if (key === emptyNodes[0]) return g;
-      g[key] = graph[key].filter(i => i !== emptyNodes[0]);
-      return g;
-    }, {});
+    graph = removeNode(emptyNodes[0], graph);
     keys = Object.keys(graph);
   }
   console.log(out);
@@ -146,8 +151,8 @@ function answer2(input) {
   console.log(timeTaken);
 }
 
-// answer1(example);
+answer1(example);
 answer1(puzzleInput);
 if (isExample) console.log("Example running with 2 workers taking 1 second for A.");
-answer2(example);
+// answer2(example);
 // answer2(puzzleInput);
