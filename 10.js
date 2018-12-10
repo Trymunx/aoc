@@ -34,13 +34,13 @@ const puzzleInput = require("./10input.js");
 function getArea(pointsArray) {
   let minx, miny, maxx, maxy, area;
   pointsArray.forEach(point => {
-    if (!minx) minx = point[0][0];
+    if (minx === undefined) minx = point[0][0];
     else minx = Math.min(minx, point[0][0]);
-    if (!maxx) maxx = point[0][0];
+    if (maxx === undefined) maxx = point[0][0];
     else maxx = Math.max(maxx, point[0][0]);
-    if (!miny) miny = point[0][1];
+    if (miny === undefined) miny = point[0][1];
     else miny = Math.min(miny, point[0][1]);
-    if (!maxy) maxy = point[0][1];
+    if (maxy === undefined) maxy = point[0][1];
     else maxy = Math.max(maxy, point[0][1]);
   });
   return (maxx - minx) * (maxy - miny);
