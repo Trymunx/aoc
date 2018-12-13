@@ -1,7 +1,7 @@
 const example = `/->-\\        
 |   |  /----\\
 | /-+--+-\\  |
-| | |  | v  |
+^ | |  | v  |
 \\-+-/  \\-+--/
   \\------/   `;
 const example2 = `/>-<\\  
@@ -183,9 +183,11 @@ function answer(input) {
     }
     return carts;
   }, []);
+  console.log(carts);
+  console.log(carts.length);
 
   let counter = 0;
-  while ((carts.length > 1 || carts[0].length > 1) && counter++ < 800) {
+  while ((carts.length > 1 || carts[0].length > 1) /* && counter++ < 800 */) {
     // console.log("");
     newCarts = [];
     carts.forEach(row => row.forEach(cart => {
@@ -220,7 +222,7 @@ function answer(input) {
       grid = newGrid;
     }));
 
-    // grid.forEach(row => console.log(row.join("")));
+    grid.forEach(row => console.log(row.join("")));
 
     newCarts = newCarts.map(row => row.filter(cart => !cart.hasCollided));
     newCarts = newCarts.filter(row => row);
@@ -230,9 +232,10 @@ function answer(input) {
     // console.log(carts);
     // console.log(carts.length, counter);
   }
+  console.log(carts);
   console.log(carts[0][0].pos);
 }
 
-// answer(example);
-answer(example2);
-answer(puzzleInput);
+answer(example);
+// answer(example2);
+// answer(puzzleInput);
