@@ -1,2 +1,4 @@
-# aoc-2018
-My hacky solutions to the Advent of Code challenges for 2018
+# aoc
+My hacky solutions to the Advent of Code challenges.
+
+Has a directory for each year.
