@@ -39,12 +39,15 @@ x18: ....##.#.#....#####.#.#.#...##...##..##..
 x19: ...#..###.#..#.#.#######.#.#.#..#.#...#..
 x20: ...#....##....#####...#######....#.#..##.`.split("\n");
 
-interface Pot {
-  index: number;
-  value: "." | "#";
-}
+// interface Pot {
+//   index: number;
+//   value: "." | "#";
+// }
 
-type State = Pot[];
+type State = {
+  state: string;
+  startIndex: number;
+}
 
 function answer(stateString: string, rulesNote: string, iterations: number) {
   const rules: Array<[string, string]> = rulesNote.split("\n").map(rule => {
@@ -54,38 +57,101 @@ function answer(stateString: string, rulesNote: string, iterations: number) {
 
   let state: State = makeState(stateString);
 
-  console.log(" 00:", state)
-  console.log(exampleResults[0]);
+  // console.log(" 00:", state.state)
+  // console.log(exampleResults[0]);
 
   for (let i = 0; i < iterations; ++i) {
-    let newstate: State = new Array(state.length + 2).fill(i => emptyPot(i));
+    const newState: State = {
+      state: ".".repeat(state.state.length),
+      startIndex: state.startIndex,
+    };
     rules.forEach(rule => {
-      let strIndex = state.indexOf(rule[0]);
+      let strIndex = state.state.indexOf(rule[0]);
       while (strIndex !== -1) {
-        if (~strIndex) {
           // console.log(rule[0], "at", strIndex, "of", state);
-          newstate = newstate.slice(0, strIndex + 2) + rule[1] + newstate.slice(strIndex + 3);
-        }
-        strIndex = state.indexOf(rule[0], strIndex + 1);
+        newState.state = newState.state.slice(0, strIndex + 2) + rule[1] + newState.state.slice(strIndex + 3);
+        strIndex = state.state.indexOf(rule[0], strIndex + 1);
       }
     })
-    state = newstate;
-    console.log(exampleResults[i + 1]);
-    console.log(`${i + 1}`.padStart(3, " ") + ":", state)
+    state = padState(newState);
+    // console.log(exampleResults[i + 1]);
+    // console.log(`${i + 1}`.padStart(3, " ") + ":", state.state)
   }
   // state.split("").forEach(l => console.log(l));
 
-  // return State.match(/#/g).length;
+  const plants = state.state.matchAll(/#/g);
+  let total = 0;
+  for (const plant of plants) {
+    total += plant.index + state.startIndex;
+  }
+
+  return total;
 }
 
-const emptyPot = (index): Pot => ({index, value: "."});
+// const emptyPot = (index): Pot => ({index, value: "."});
 
 const makeState = (stateString: string): State => {
-  const split = stateString.split("");
-  const state = [];
-  for (const i of [-2, -1]) state.push(emptyPot(i));
-  return state.concat(split.map((value, index) => ({index, value})));
+  return padState({
+    state: stateString,
+    startIndex: 0,
+  });
 }
 
-console.log(answer(exampleState, exampleRules, 20));
+const padState = (state: State): State => {
+  const firstPlant = state.state.indexOf("#");
+  if (firstPlant < 4) {
+    state.state = ".".repeat(4 - firstPlant) + state.state;
+    state.startIndex -= (4 - firstPlant);
+  }
+  while (state.state.slice(-4).indexOf("#") !== -1) {
+    state.state += ".";
+  }
+  return state;
+}
 
+// console.log(answer(exampleState, exampleRules, 20));
+
+const initialState = `##...#...###.#.#..#...##.###..###....#.#.###.#..#....#..#......##..###.##..#.##..##..#..#.##.####.##`;
+const rules =
+`.###. => #
+###.# => #
+#.... => .
+..#.. => .
+##.#. => .
+...#. => .
+.#... => #
+.##.. => .
+..#.# => .
+#..#. => .
+....# => .
+##..# => #
+..##. => #
+.##.# => #
+.#.#. => .
+..... => .
+##### => .
+.#### => #
+###.. => .
+.#..# => #
+#.#.# => #
+#..## => #
+#...# => #
+.#.## => #
+##.## => .
+..### => .
+#.### => .
+####. => #
+#.##. => #
+##... => #
+#.#.. => .
+...## => #`;
+
+// console.log(answer(initialState, rules, 20));
+// let prev = 0;
+// for (let i = 0; i < 150; i++) {
+//   const ans = answer(initialState, rules, i);
+//   console.log(i, ans - prev);
+//   prev = ans;
+// }
+
+console.log(answer(initialState, rules, 105) + 67 * (50000000000 - 105))
