@@ -17,17 +17,17 @@ const checkPass = {
     },
     part2: (pass) => {
         const str = pass.toString();
+        const digits = str.split("").map(Number);
+        for (let i = 1; i < digits.length; i++) {
+            if (digits[i] < digits[i - 1]) {
+                return 0;
+            }
+        }
         let pair = 0;
         const match = str['matchAll'](/0+|1+|2+|3+|4+|5+|6+|7+|8+|9+/g);
         for (const pattern of match) {
             if (Array.isArray(pattern) && pattern[0].length === 2) {
                 pair = 1;
-            }
-        }
-        const digits = str.split("").map(Number);
-        for (let i = 1; i < digits.length; i++) {
-            if (digits[i] < digits[i - 1]) {
-                return 0;
             }
         }
         return pair;
