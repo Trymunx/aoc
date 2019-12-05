@@ -44,7 +44,7 @@ const codes: {
   4: {
     code: 4,
     paramLength: 1,
-    immediateWP: false,
+    immediateWP: true,
   },
   5: {
     code: 5,
@@ -73,11 +73,20 @@ const codes: {
   },
 };
 
-function answer(input: string, val: number) {
+function answer(input: string, val: number, debug = false) {
   const instructions: number[] = input.split(",").map(Number);
   const addr = addrHelper(instructions);
 
   let ptr = 0;
+
+  if (debug) {
+    console.log([
+      ...instructions.slice(0, ptr),
+      `[${instructions[ptr]}]`,
+      ...instructions.slice(ptr + 1)
+    ].join(","))
+  }
+
   while (ptr < instructions.length) {
     const fullOp = instructions[ptr];
     let op: Instruction;
@@ -85,7 +94,8 @@ function answer(input: string, val: number) {
 
     if (Math.log10(fullOp) > 2) {
       op = codes[parseInt(fullOp.toString().slice(-2))];
-      paramModeStr = fullOp.toString().slice(0, -2).padStart(op.paramLength, "0");
+      paramModeStr = fullOp.toString().slice(0, -2).padStart(op.immediateWP ? op.paramLength : op.paramLength - 1, "0");
+      if (debug) console.log("  paramModes:", paramModeStr);
     } else {
       op = codes[fullOp];
     }
@@ -120,9 +130,11 @@ function answer(input: string, val: number) {
 
     writePointer = writePointer === undefined ? parsedParams[parsedParams.length - 1] : writePointer;
 
-    console.log(parsedParams);
+    if (debug) {
+      console.log(parsedParams);
 
-    console.log("op", op.code, "params", parsedParams.slice(0, -1), "writing to", writePointer);
+      console.log("op", op.code, "params", parsedParams, "writing to", writePointer);
+    }
 
     switch (op.code) {
       case 1:
@@ -134,18 +146,18 @@ function answer(input: string, val: number) {
         ptr += op.paramLength + 1;
         break;
       case 3:
-        console.log("   writing", val, "to", writePointer);
+        console.log(">> writing", val, "to", writePointer);
         instructions[writePointer] = val;
         ptr += op.paramLength + 1;
         break;
       case 4:
-        console.log(instructions[writePointer]);
+        console.log(parsedParams[0]);
         ptr += op.paramLength + 1;
         break;
       case 5:
-        if (parsedParams[0] === 1) {
+        if (parsedParams[0] !== 0) {
           // console.log("  jump: set ptr to", writePointer, instructions[writePointer]);
-          console.log(5, "jump");
+          // console.log(5, "jump");
           ptr = writePointer;
         } else {
           ptr += op.paramLength + 1;
@@ -153,7 +165,7 @@ function answer(input: string, val: number) {
         break;
       case 6:
         if (parsedParams[0] === 0) {
-          console.log(6, "jump");
+          // console.log(6, "jump");
           ptr = writePointer;
         } else {
           ptr += op.paramLength + 1;
@@ -168,22 +180,24 @@ function answer(input: string, val: number) {
         ptr += op.paramLength + 1;
         break;
       case 8:
-        if (parsedParams[0] > parsedParams[1]) {
-          instructions[writePointer] = 0;
-        } else {
+        if (parsedParams[0] === parsedParams[1]) {
           instructions[writePointer] = 1;
+        } else {
+          instructions[writePointer] = 0;
         }
         ptr += op.paramLength + 1;
         break;
     }
 
-    // console.log([...instructions.slice(0, ptr), `[${instructions[ptr]}]`, ...instructions.slice(ptr + 1)].join(","))
+    if (debug) {
+      console.log([
+        ...instructions.slice(0, ptr),
+        `[${instructions[ptr]}]`,
+        ...instructions.slice(ptr + 1)
+      ].join(","))
+    }
   }
 }
 
-// console.log(answer(example1));
-console.log(answer(input, 1));
-// answer(example2);
-// answer(example6, 10);
-// answer(isNonZero1, 1);
-// answer(isNonZero2, 0);
+answer(input, 1);
+answer(input, 5);
