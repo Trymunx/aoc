@@ -119,11 +119,8 @@ const performAttacks = (targetPairs, allGroups) => {
         }
         const damage = calculateDamage(attacker, defender);
         const unitsRemaining = Math.ceil((defender.units * defender.hp - damage) / defender.hp);
-        console.log(defender.units, "remaining: ", unitsRemaining, "killed:", defender.units - unitsRemaining);
-        // console.log("before", allGroups);
         defender.units = unitsRemaining;
         defender.effectivePower = unitsRemaining * defender.damage.amount;
-        // console.log("after", allGroups);
     }
     return allGroups;
 };
@@ -139,12 +136,12 @@ const calculateDamage = (attacker, defender) => {
 function main(input) {
     // Split input into armies (arrays of groups)
     const { immuneSysGroups, infectionGroups } = parseInput(exampleInput);
-    const allGroups = [...immuneSysGroups, ...infectionGroups];
+    let allGroups = [...immuneSysGroups, ...infectionGroups];
     // Targeting phase
     const targetingOrder = orderGroupsForTargeting(...immuneSysGroups, ...infectionGroups);
     const unorderedTargetPairs = chooseTargets({ targetingOrder, immuneSysGroups, infectionGroups });
     let targetPairs = orderTargetPairsForAttacking(unorderedTargetPairs);
     // Attacking phase
-    performAttacks(targetPairs, allGroups);
+    allGroups = performAttacks(targetPairs, allGroups);
 }
 main(exampleInput);
