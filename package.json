@@ -1,0 +1,26 @@
+{
+  "name": "aoc",
+  "version": "1.0.0",
+  "description": "My hacky solutions to the Advent of Code challenges.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trymunx/aoc.git"
+  },
+  "author": "Trymunx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/trymunx/aoc/issues"
+  },
+  "homepage": "https://github.com/trymunx/aoc#readme",
+  "devDependencies": {
+    "@types/node": "^12.12.16",
+    "@typescript-eslint/eslint-plugin": "^2.11.0",
+    "@typescript-eslint/parser": "^2.11.0",
+    "eslint": "^6.7.2",
+    "typescript": "^3.7.3"
+  }
+}
