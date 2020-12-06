@@ -1,36 +1,41 @@
 module.exports = {
-  "env": {
-    "commonjs": true,
-    "es6": true,
-    "node": true
+  env: {
+    commonjs: true,
+    es6: true,
+    node: true,
   },
-  "extends": [
+  extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
   ],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    parser: "@typescript-eslint/parser",
   },
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": 2018
-  },
-  "plugins": [
-    "@typescript-eslint"
+  plugins: [
+    "@typescript-eslint",
+    "eslint-plugin-import",
+    "sort-keys-fix",
+    "typescript-sort-keys",
   ],
+  root: true,
   rules: {
+    "arrow-parens": ["warn", "as-needed"],
+    "comma-dangle": ["error", "always-multiline"],
+    "generator-star-spacing": ["error", {after: true, before: false}],
+    indent: ["error", 2, {SwitchCase: 1}],
+    "linebreak-style": ["error", "unix"],
+    "max-len": ["error", {code: 100, ignoreTrailingComments: true, tabWidth: 2}],
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
-    indent: ["error", 2, { SwitchCase: 1 }],
-    "linebreak-style": ["error", "unix"],
+    "no-fallthrough": ["error", {commentPattern: "break[\\s\\w]*omitted"}],
+    "no-trailing-spaces": ["error"],
+    "object-curly-spacing": ["warn", "always", {arraysInObjects: false, objectsInObjects: false}],
     quotes: ["error", "double"],
     semi: ["error", "always"],
-    "comma-dangle": ["error", "always-multiline"],
-    "max-len": ["error", { code: 100, tabWidth: 2, ignoreTrailingComments: true }],
-    "no-trailing-spaces": ["error"],
-    "object-curly-spacing": ["warn", "always", { objectsInObjects: false, arraysInObjects: false }],
-    "arrow-parens": ["warn", "as-needed"],
     "sort-imports": [
       "warn",
       {
@@ -38,12 +43,13 @@ module.exports = {
         memberSyntaxSortOrder: ["none", "all", "single", "multiple"],
       },
     ],
-    "sort-keys": ["warn", "asc", { caseSensitive: true, natural: true }],
+    "sort-keys": ["warn", "asc", {caseSensitive: true, natural: true}],
+    "sort-keys-fix/sort-keys-fix": "warn",
     "space-before-function-paren": [
       "error",
-      { anonymous: "never", asyncArrow: "never", named: "never" },
+      {anonymous: "never", asyncArrow: "never", named: "never"},
     ],
-    "generator-star-spacing": ["error", { before: false, after: true }],
-    "no-fallthrough": ["error", { commentPattern: "break[\\s\\w]*omitted" }],
+    "typescript-sort-keys/interface": "error",
+    "typescript-sort-keys/string-enum": "error",
   },
 };
