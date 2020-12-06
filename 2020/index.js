@@ -3,6 +3,7 @@ const { day02 } = require("./02.js");
 const { day03 } = require("./03.js");
 const { day04 } = require("./04.js");
 const { day05 } = require("./05.js");
+const { day06 } = require("./06.js");
 
 console.table([
   ["Part 1", "Part 2"],
@@ -11,4 +12,5 @@ console.table([
   day03(),
   day04(),
   day05(),
+  day06(),
 ]);
