@@ -1,13 +1,13 @@
 const input = require("fs").readFileSync("input/07.txt", "utf8");
 
-const keyRegex = /^(\w+ \w+) bags contain/
-const valueRegex = /(\d+) (\w+ \w+) bag/g
+const keyRegex = /^(\w+ \w+) bags contain/;
+const valueRegex = /(\d+) (\w+ \w+) bag/g;
 
 const countBagsContainingColour = (bagToParents, searchColour) => {
   const toSearch = bagToParents[searchColour] || [];
   const bags = new Set(toSearch);
   while (toSearch.length) {
-    const search = toSearch.pop()
+    const search = toSearch.pop();
     if (bagToParents[search]) {
       for (const bag of bagToParents[search]) {
         bags.add(bag);
@@ -16,16 +16,16 @@ const countBagsContainingColour = (bagToParents, searchColour) => {
     }
   }
   return bags.size;
-}
+};
 
 const countChildBags = (parentToBags, searchColour) => {
   let count = 1;
   for (const [colour, multiple] of Object.entries(parentToBags[searchColour])) {
     const number = countChildBags(parentToBags, colour);
-    count += number * multiple; 
+    count += number * multiple;
   }
-  return count
-}
+  return count;
+};
 
 const day07 = () => {
   const myBag = "shiny gold";
@@ -33,7 +33,7 @@ const day07 = () => {
   const bagToParents = {};
 
   for (const line of input.trim().split("\n")) {
-    const keyMatch = line.match(keyRegex)
+    const keyMatch = line.match(keyRegex);
     if (!keyMatch) {
       console.log("no match", line);
       continue;
@@ -52,7 +52,7 @@ const day07 = () => {
   }
 
   return [countBagsContainingColour(bagToParents, myBag), countChildBags(parentToBags, myBag) - 1];
-}
+};
 
 console.log(day07());
 
