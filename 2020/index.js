@@ -15,6 +15,7 @@ const { day10 } = require("./10.js");
 const { day11 } = require("./11.js");
 const { day12 } = require("./12.js");
 const { day13 } = require("./13.js");
+const { day14 } = require("./14.js");
 
 // Reset back to the real console.log
 console.log = realLogger;
@@ -34,4 +35,5 @@ console.table([
   day11(),
   day12(),
   day13(),
+  day14(),
 ]);
