@@ -46,7 +46,7 @@ const test2 = `28
 const day10 = () => {
   const output = [0, 0n];
 
-  const sorted = test2.trim().split("\n").map(line => parseInt(line, 10)).sort((a, b) => a - b);
+  const sorted = input.trim().split("\n").map(line => parseInt(line, 10)).sort((a, b) => a - b);
   sorted.unshift(0); // charging outlet has joltage of 0
   sorted.push(sorted[sorted.length - 1] + 3); // device has joltage of highest + 3
 
@@ -68,21 +68,21 @@ const day10 = () => {
   }
   output[0] = counts.one * counts.three;
 
-  for (let i = 0; i < sorted.length; i++) {
-    if (sorted[i + 3] - sorted[i] <= 3) {
-      output[1] *= 2;
-    }
-    if (sorted[i + 2] - sorted[i] <= 3) {
-      output[1]++;
-    }
-    // let j = 1;
-    // while (sorted[i + j++] - sorted[i] < 3 && j < 4) {
-    // output[1]++;
-    // }
-    // if (sorted[i + 1] - sorted[i] < 3) {
-    //   output[1] += 1;
-    // }
-  }
+  // for (let i = 0; i < sorted.length; i++) {
+  //   if (sorted[i + 3] - sorted[i] <= 3) {
+  //     output[1] *= 2;
+  //   }
+  //   if (sorted[i + 2] - sorted[i] <= 3) {
+  //     output[1]++;
+  //   }
+  //   // let j = 1;
+  //   // while (sorted[i + j++] - sorted[i] < 3 && j < 4) {
+  //   // output[1]++;
+  //   // }
+  //   // if (sorted[i + 1] - sorted[i] < 3) {
+  //   //   output[1] += 1;
+  //   // }
+  // }
 
   return output;
 };

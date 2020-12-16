@@ -135,31 +135,31 @@ const simulate2 = (grid: string[][]): {grid: string[][]; totalSeats: number} => 
 };
 
 const part2 = (): number => {
-  let lastTotal = 0;
+  const lastTotal = 0;
   let newTotal: number;
-  let grid = test.split("\n").map(line => line.split(""));
+  const grid = test.split("\n").map(line => line.split(""));
   // let grid = input11.split("\n").map((line: string) => line.split(""));
 
-  while (lastTotal !== newTotal) {
-    lastTotal = newTotal;
-    // console.log("simulating...", lastTotal, newTotal);
-    const results = simulate2(grid);
-    grid = results.grid;
+  // while (lastTotal !== newTotal) {
+  //   lastTotal = newTotal;
+  //   // console.log("simulating...", lastTotal, newTotal);
+  //   const results = simulate2(grid);
+  //   grid = results.grid;
 
-    // let results = simulate(test.split("\n").map(line => line.split("")));
-    // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
-    // results = simulate(results.grid);
-    // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
-    // results = simulate(results.grid);
-    // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
-    // results = simulate(results.grid);
-    // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
-    // results = simulate(results.grid);
-    // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
-    // results = simulate(results.grid);
-    // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
-    newTotal = results.totalSeats;
-  }
+  //   // let results = simulate(test.split("\n").map(line => line.split("")));
+  //   // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
+  //   // results = simulate(results.grid);
+  //   // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
+  //   // results = simulate(results.grid);
+  //   // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
+  //   // results = simulate(results.grid);
+  //   // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
+  //   // results = simulate(results.grid);
+  //   // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
+  //   // results = simulate(results.grid);
+  //   // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
+  //   newTotal = results.totalSeats;
+  // }
 
   return newTotal;
 };

@@ -115,25 +115,25 @@ var part2 = function () {
     var newTotal;
     var grid = test.split("\n").map(function (line) { return line.split(""); });
     // let grid = input11.split("\n").map((line: string) => line.split(""));
-    while (lastTotal !== newTotal) {
-        lastTotal = newTotal;
-        // console.log("simulating...", lastTotal, newTotal);
-        var results = simulate2(grid);
-        grid = results.grid;
-        // let results = simulate(test.split("\n").map(line => line.split("")));
-        // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
-        // results = simulate(results.grid);
-        // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
-        // results = simulate(results.grid);
-        // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
-        // results = simulate(results.grid);
-        // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
-        // results = simulate(results.grid);
-        // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
-        // results = simulate(results.grid);
-        // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
-        newTotal = results.totalSeats;
-    }
+    // while (lastTotal !== newTotal) {
+    //   lastTotal = newTotal;
+    //   // console.log("simulating...", lastTotal, newTotal);
+    //   const results = simulate2(grid);
+    //   grid = results.grid;
+    //   // let results = simulate(test.split("\n").map(line => line.split("")));
+    //   // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
+    //   // results = simulate(results.grid);
+    //   // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
+    //   // results = simulate(results.grid);
+    //   // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
+    //   // results = simulate(results.grid);
+    //   // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
+    //   // results = simulate(results.grid);
+    //   // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
+    //   // results = simulate(results.grid);
+    //   // console.log(results.grid.map(line => line.join("")).join("\n"), "\n", results.totalSeats);
+    //   newTotal = results.totalSeats;
+    // }
     return newTotal;
 };
 var day11 = function () {
